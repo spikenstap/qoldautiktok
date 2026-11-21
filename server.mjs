@@ -50,7 +50,7 @@ export function createApp({dataDir=process.env.QOLDAU_DATA||path.join(ROOT,'data
  const leases={alerts:{id:'',at:0,status:'Окно донатов не подключено'},music:{id:'',at:0,status:'Окно музыки не подключено'}};
  const live=l=>Date.now()-l.at<6500;
  function playerState(){const lease=live(leases.alerts)?leases.alerts:leases.music;return {...lease,connected:live(leases.alerts)||live(leases.music),channels:{alerts:live(leases.alerts),music:live(leases.music)}}}
- function widgetState(){return {title:settings.title,goalName:settings.goalName,goalAmount:settings.goalAmount,showGoal:settings.showGoal,total:total(),top:db.prepare("SELECT name,SUM(amount) amount FROM donations WHERE status IN ('confirmed','detected') AND test=0 AND session=? GROUP BY name ORDER BY amount DESC,name LIMIT 5").all(session)}}
+ function widgetState(){return {title:settings.title,goalName:settings.goalName,goalAmount:settings.goalAmount,showGoal:settings.showGoal,total:total(),top:db.prepare("SELECT name,SUM(amount) amount FROM donations WHERE status IN ('confirmed','detected') AND test=0 AND session=? GROUP BY name ORDER BY amount DESC,name LIMIT 10").all(session)}}
  // A crashed or reloaded player is not automatically replayed: favour no duplicate alerts.
  db.exec("UPDATE alerts SET status='interrupted' WHERE status='playing'; UPDATE music SET status='interrupted',note='Приложение перезапущено' WHERE status='playing'");
  function transaction(fn){db.exec('BEGIN IMMEDIATE');try{const r=fn();db.exec('COMMIT');return r}catch(e){db.exec('ROLLBACK');throw e}}

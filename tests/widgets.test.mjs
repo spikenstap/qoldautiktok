@@ -33,6 +33,15 @@ test('separate widgets isolate audio ownership, share ducking and expose only ag
    await call('confirm',{id:donation.id,amount,reference:ref},app.keys.admin);
   }
   const stats=(await call('widgets/state')).data;assert.equal(stats.total,2200);assert.deepEqual(stats.top,[{name:'Нұрлан',amount:1200},{name:'Әлия',amount:1000}]);assert.equal(stats.phone,undefined);assert.equal(stats.donations,undefined);assert.equal(stats.settings,undefined);
+  for(let i=1;i<=9;i++){
+   const submitted=await call('donations',{name:'Rank '+i,amount:i*200,message:''},'');assert.equal(submitted.status,201);const d=submitted.data;
+   assert.equal((await call('confirm',{id:d.id,amount:i*200,reference:'TOP10-'+i},app.keys.admin)).status,200);
+  }
+  const leaders=(await call('widgets/state')).data.top;
+  assert.equal(leaders.length,10);
+  assert.deepEqual(leaders.slice(0,3).map(d=>d.amount),[1800,1600,1400]);
+  assert.equal(leaders.at(-1).amount,400);
+  assert.ok(!leaders.some(d=>d.name==='Rank 1'||d.name==='Тестовый лидер'));
   assert.equal((await call('settings',{},app.keys.overlay)).status,403);
   await call('control',{action:'newSession'},app.keys.admin);assert.deepEqual((await call('widgets/state')).data.top,[]);
  }finally{await app.close();rmSync(dir,{recursive:true,force:true})}

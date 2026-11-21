@@ -13,7 +13,7 @@ const report=status=>{writeFileSync(stateFile,JSON.stringify({url:publicUrl,toke
  'HTTPS-ССЫЛКИ ДЛЯ LIVE STUDIO','Адрес временный. После нового запуска START-HTTPS.cmd скопируй ссылки заново.','Добавить источник → Ссылка. Не публикуй токены зрителям.','',
  'Донаты и озвучка — 640 × 600',publicUrl+'/overlay?widget=alerts&transparent=1&embed=1&token='+token,'',
  'Цель — 480 × 240',publicUrl+'/widget?type=goal&token='+token,'',
- 'Топ — 800 × 500',publicUrl+'/widget?type=top&token='+token,'',
+ 'Топ — 420 × 620',publicUrl+'/widget?type=top&token='+token,'',
  'Музыка — 520 × 380',publicUrl+'/overlay?widget=music&transparent=1&embed=1&token='+token,'',
  'Общий экран — 1280 × 1080',publicUrl+'/overlay?widget=all&transparent=1&embed=1&token='+token,
  '','Общий экран занимает оба звуковых канала: не открывай его одновременно с отдельным виджетом донатов.','Включи звук источника. Для проверки используй тестовый донат в панели.',''].join('\r\n'));writtenUrl=publicUrl}};
