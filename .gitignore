@@ -1,0 +1,30 @@
+# Personal state and credentials
+/data/
+/.env
+/.env.*
+!/.env.example
+/HTTPS-LINKS.txt
+*.sqlite
+*.sqlite-*
+*.log
+
+# Downloaded runtimes, generated speech and model weights
+/runtime/
+/samples/
+/voices/*.onnx
+/node_modules/
+/.venv/
+/build/
+/dist/
+*.spec
+__pycache__/
+*.py[cod]
+
+# Local screenshots, recordings and verification history
+/*.png
+/*.jpg
+/*.jpeg
+/*.mp4
+/ПРОВЕРЕНО.txt
+.DS_Store
+Thumbs.db

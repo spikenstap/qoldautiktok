@@ -1,0 +1,6 @@
+const query=new URLSearchParams(location.search),kind=query.get('type');
+const hash=new URLSearchParams(location.hash.slice(1));let token=query.get('token')||hash.get('key')||'';
+try{token=token||sessionStorage.getItem('qoldauOverlay')||'';if(token)sessionStorage.setItem('qoldauOverlay',token)}catch{}if(!query.has('token'))history.replaceState(null,'',location.pathname+location.search);
+document.body.dataset.widget=kind;document.title=kind==='goal'?'Қолдау — цель сбора':'Қолдау — топ донатеров';let updating=false;
+async function refresh(){if(updating)return;updating=true;try{if(!['goal','top'].includes(kind))throw Error('Неизвестный виджет. Скопируй ссылку из панели.');if(!token)throw Error('Нет ключа виджета. Скопируй полную ссылку из панели ведущего.');const response=await fetch('/api/widgets/state',{headers:{Authorization:'Bearer '+token},signal:AbortSignal.timeout(5000)});if(!response.ok)throw Error('Нет доступа к виджету. Проверь ссылку и запуск приложения.');const data=await response.json();window.renderWidgetData(data);document.getElementById(kind==='goal'?'goalBox':'topBox').hidden=false;document.getElementById('widgetError').hidden=true}catch(error){document.getElementById('widgetError').hidden=false;document.getElementById('widgetError').textContent=error.message}finally{updating=false}}
+refresh();setInterval(refresh,2000);

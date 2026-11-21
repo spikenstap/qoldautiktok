@@ -1,0 +1,36 @@
+Source repository: runtime binaries and model weights are installed separately (see SETUP.md). The notices below describe the tested local Windows distribution.
+
+This is a personal local application; it is not affiliated with Kaspi, TikTok or YouTube.
+
+Bundled runtimes:
+Node.js 24.22.3 — Node.js contributors; see licenses/Node-LICENSE.txt.
+Piper Windows amd64 2023.11.14-2 — Michael Hansen; MIT license, see licenses/Piper-MIT.txt.
+Piper includes eSpeak NG (GPL) and ONNX Runtime (MIT); see licenses/ and upstream sources below. Preserve third-party notices when redistributing; runtime components retain their original licenses.
+https://github.com/rhasspy/piper/tree/2023.11.14-2
+https://github.com/rhasspy/piper-phonemize
+https://github.com/espeak-ng/espeak-ng
+https://github.com/microsoft/onnxruntime
+
+Voice attribution:
+kk_KZ-iseke-x_low and kk_KZ-raya-x_low from rhasspy/piper-voices.
+Dataset: KazakhTTS, Institute of Smart Systems and Artificial Intelligence (ISSAI), Nazarbayev University.
+Dataset license declared in both model cards: CC BY 4.0.
+https://github.com/IS2AI/Kazakh_TTS
+https://huggingface.co/rhasspy/piper-voices/tree/main/kk/kk_KZ
+https://creativecommons.org/licenses/by/4.0/
+Model files are unmodified. The sample WAV files were generated locally using these voices.
+Individual model cards are retained alongside the models in voices/.
+
+YouTube playback uses the official IFrame Player API at https://www.youtube.com/iframe_api.
+No audio extraction or video downloading is implemented.
+
+Bluetooth module: our implementation of Apple's public ANCS specification, using Windows WinRT through PyWinRT 4.2.0 (MIT), bundled CPython 3.12.14 (PSF license) and PyInstaller 6.22.3 bootloader (GPL with exception for bundled applications). See licenses/ for copied notices.
+https://github.com/pywinrt/pywinrt
+https://www.python.org/
+https://pyinstaller.org/en/stable/license.html
+No KZDonate code, binaries, account or paid service is used. No Bluetooth PIN or permission prompt is bypassed.
+
+Cloudflare cloudflared 2026.11.1 (Apache-2.0): https://github.com/cloudflare/cloudflared
+Official Windows binary SHA256: 341deda3db5ec498a0482254d6c38c0b7cf01a30c37bb5dd95d2216d08955e35
+
+
