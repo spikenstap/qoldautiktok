@@ -22,7 +22,8 @@ async function displayAlert(item){const job={id:item.id,cancelled:false},speechV
   $('#testBadge').hidden=!d.test;$('#amount').textContent=money(d.amount);$('#donor').textContent=d.name;$('#message').textContent=d.message;el.style.width=r.width+'px';el.style.left=`clamp(${Math.min(r.width/2,innerWidth*.47)}px, ${r.x}%, calc(100% - ${Math.min(r.width/2,innerWidth*.47)}px))`;el.style.top=Math.max(12,Math.min(70,r.y))+'%';el.className='neon-card '+r.effect;el.style.setProperty('--alert-seconds',r.seconds+'s');const countdown=el.querySelector('.alert-countdown');countdown.replaceChildren(document.createElement('i'));$('#visual').replaceChildren();
   if(r.media){const video=/\.(mp4|webm)$/.test(r.media),m=document.createElement(video?'video':'img');m.src=r.media;if(video){m.autoplay=true;m.loop=true;m.muted=true;m.playsInline=true}else m.alt='Анимация доната';$('#visual').append(m)}el.hidden=false;
   duck(true);if(r.sound)await playAudio(r.sound,s.ttsVolume,6000,job);
-  if(s.ttsEnabled&&!job.cancelled&&speechVersion===skipSpeech){let text=`${d.name}. ${kkNumber(d.amount)} теңге. ${d.message.slice(0,s.messageLimit)}`;
+  const text=String(d.message??'').slice(0,s.messageLimit).trim();
+  if(text&&s.ttsEnabled&&!job.cancelled&&speechVersion===skipSpeech){
    if(s.voice==='browser')await browserSpeech(text,job);else{
     ttsController=new AbortController();const timeout=setTimeout(()=>ttsController?.abort(),35000);try{const resp=await fetch('/api/tts',{method:'POST',headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify({text,voice:s.voice,speed:s.ttsRate}),signal:ttsController.signal});const data=await resp.json();if(!resp.ok)throw Error(data.error);if(!job.cancelled&&speechVersion===skipSpeech)await playAudio(data.url,s.ttsVolume,90000,job)}catch(e){if(e.name!=='AbortError')sayStatus('Озвучка: '+e.message)}finally{clearTimeout(timeout);ttsController=null}
    }
